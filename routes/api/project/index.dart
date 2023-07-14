@@ -19,6 +19,7 @@ Future<Response> getProjects(RequestContext context) async {
       final docs = await DatabaseService.projectsCollection.find().toList();
       final projectsList = docs.map(ProjectModel.fromJson).toList();
       return Response.json(
+        statusCode: 200,
         body: {
           'success': true,
           'data': projectsList,
@@ -38,6 +39,7 @@ Future<Response> getProjects(RequestContext context) async {
       if (doc != null && doc.isNotEmpty) {
         final project = ProjectModel.fromJson(doc);
         return Response.json(
+          statusCode: 200,
           body: {
             'success': true,
             'data': project,
@@ -46,6 +48,7 @@ Future<Response> getProjects(RequestContext context) async {
         );
       }
     } catch (e) {
+      print(' Project list error $e');
       return Response.json(
         statusCode: 404,
         body: {

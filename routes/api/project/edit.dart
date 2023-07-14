@@ -70,7 +70,7 @@ Future<Response> editProject(RequestContext context) async {
       updatedProject.toJson(),
     );
     return Response.json(
-      statusCode: 201,
+      statusCode: 200,
       body: {
         'success': true,
         'data': updatedProject,

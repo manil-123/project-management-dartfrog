@@ -47,6 +47,7 @@ Future<Response> deleteProject(RequestContext context) async {
         ),
       );
       return Response.json(
+        statusCode: 200,
         body: {
           'success': true,
           'message': 'Project deleted successfully',
