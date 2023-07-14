@@ -7,11 +7,11 @@ import '../../../services/database_service.dart';
 Future<Response> onRequest(RequestContext context) async {
   return DatabaseService.startConnection(
     context,
-    addSprint(context),
+    createSprint(context),
   );
 }
 
-Future<Response> addSprint(RequestContext context) async {
+Future<Response> createSprint(RequestContext context) async {
   //check if the request is a POST request
   if (context.request.method == HttpMethod.post) {
     //check if project_id is present
