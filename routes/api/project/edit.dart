@@ -46,7 +46,7 @@ Future<Response> editProject(RequestContext context) async {
   );
   if (project == null) {
     return Response.json(
-      statusCode: 400,
+      statusCode: 404,
       body: {
         'success': false,
         'message': 'Project not found',

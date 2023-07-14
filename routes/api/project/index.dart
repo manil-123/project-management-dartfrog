@@ -50,10 +50,10 @@ Future<Response> getProjects(RequestContext context) async {
     } catch (e) {
       print(' Project list error $e');
       return Response.json(
-        statusCode: 404,
+        statusCode: 500,
         body: {
           'success': false,
-          'message': 'Project not found',
+          'message': 'Internal Server Error',
         },
       );
     }

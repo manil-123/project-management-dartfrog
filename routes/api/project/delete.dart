@@ -33,7 +33,7 @@ Future<Response> deleteProject(RequestContext context) async {
       );
       if (project == null) {
         return Response.json(
-          statusCode: 400,
+          statusCode: 404,
           body: {
             'success': false,
             'message': 'Project not found',
@@ -55,10 +55,10 @@ Future<Response> deleteProject(RequestContext context) async {
       );
     } catch (e) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 500,
         body: {
           'success': false,
-          'message': 'Project not found',
+          'message': 'Internal Server Error',
         },
       );
     }
