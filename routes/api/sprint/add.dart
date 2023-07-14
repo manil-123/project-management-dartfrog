@@ -22,7 +22,7 @@ Future<Response> addSprint(RequestContext context) async {
     //check if user has passed id params.
     if (!params.containsKey('id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Project id is missing',
@@ -72,10 +72,11 @@ Future<Response> addSprint(RequestContext context) async {
           newProject.toJson(),
         );
         return Response.json(
+          statusCode: 201,
           body: {
             'success': true,
             'data': newProject,
-            'message': 'Sprint added successfully',
+            'message': 'Sprint created successfully',
           },
         );
       }

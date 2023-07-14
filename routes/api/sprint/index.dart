@@ -17,7 +17,7 @@ Future<Response> getSprints(RequestContext context) async {
     final params = context.request.uri.queryParameters;
     if (!params.containsKey('id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Project id is missing',
@@ -45,6 +45,7 @@ Future<Response> getSprints(RequestContext context) async {
       if (doc.isNotEmpty) {
         final project = ProjectModel.fromJson(doc);
         return Response.json(
+          statusCode: 200,
           body: {
             'success': true,
             'data': project.sprints,
