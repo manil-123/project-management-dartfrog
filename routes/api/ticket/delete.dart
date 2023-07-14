@@ -21,7 +21,7 @@ Future<Response> deleteTicket(RequestContext context) async {
     //check if user has passed id params.
     if (!params.containsKey('project_id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Project id is missing',
@@ -30,7 +30,7 @@ Future<Response> deleteTicket(RequestContext context) async {
     }
     if (!params.containsKey('sprint_id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Sprint id is missing',
@@ -95,6 +95,7 @@ Future<Response> deleteTicket(RequestContext context) async {
           project.toJson(),
         );
         return Response.json(
+          statusCode: 200,
           body: {
             'success': true,
             'data': {

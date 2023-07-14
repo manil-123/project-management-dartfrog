@@ -8,11 +8,11 @@ import '../../../services/database_service.dart';
 Future<Response> onRequest(RequestContext context) async {
   return DatabaseService.startConnection(
     context,
-    getTickets(context),
+    createTicket(context),
   );
 }
 
-Future<Response> getTickets(RequestContext context) async {
+Future<Response> createTicket(RequestContext context) async {
   //check if the request is a POST request
   if (context.request.method == HttpMethod.post) {
     //check if user_id is present
@@ -23,7 +23,7 @@ Future<Response> getTickets(RequestContext context) async {
     final assignedTo = body['assignedTo'];
     if (!params.containsKey('project_id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Project id is missing',
@@ -32,7 +32,7 @@ Future<Response> getTickets(RequestContext context) async {
     }
     if (!params.containsKey('sprint_id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Sprint id is missing',
@@ -41,7 +41,7 @@ Future<Response> getTickets(RequestContext context) async {
     }
     if (title == null) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Title field is required',
@@ -96,6 +96,7 @@ Future<Response> getTickets(RequestContext context) async {
             project.toJson(),
           );
           return Response.json(
+            statusCode: 201,
             body: {
               'success': true,
               'data': {

@@ -17,7 +17,7 @@ Future<Response> getTickets(RequestContext context) async {
     final params = context.request.uri.queryParameters;
     if (!params.containsKey('project_id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Project id is missing',
@@ -26,7 +26,7 @@ Future<Response> getTickets(RequestContext context) async {
     }
     if (!params.containsKey('sprint_id')) {
       return Response.json(
-        statusCode: 404,
+        statusCode: 400,
         body: {
           'success': false,
           'message': 'Sprint id is missing',
@@ -66,6 +66,7 @@ Future<Response> getTickets(RequestContext context) async {
           );
         } else {
           return Response.json(
+            statusCode: 200,
             body: {
               'success': true,
               'data': {
