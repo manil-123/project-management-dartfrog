@@ -41,9 +41,7 @@ class TicketModel {
     data['weight'] = this.weight;
     data['createdAt'] = this.createdAt;
     data['closedAt'] = this.closedAt;
-    if (this.assignedTo != null) {
-      data['assignedTo'] = this.assignedTo!.toJson();
-    }
+    data['assignedTo'] = this.assignedTo?.toJson();
     return data;
   }
 }

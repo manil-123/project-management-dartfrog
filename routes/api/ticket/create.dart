@@ -48,6 +48,15 @@ Future<Response> createTicket(RequestContext context) async {
         },
       );
     }
+    // if (assignedTo == null) {
+    //   return Response.json(
+    //     statusCode: 400,
+    //     body: {
+    //       'success': false,
+    //       'message': 'assignedTo field is required',
+    //     },
+    //   );
+    // }
     //get project with the id
     final projectId = params['project_id'];
     final sprintId = params['sprint_id'];
@@ -81,15 +90,16 @@ Future<Response> createTicket(RequestContext context) async {
           );
         } else {
           final ticketModel = TicketModel(
-              id: ObjectId().toHexString(),
-              title: title,
-              logs: null,
-              weight: (weight as int?) ?? 1,
-              createdAt: DateTime.now().toString(),
-              closedAt: null,
-              assignedTo: (assignedTo as Map<String, dynamic>?) != null
-                  ? UserModel.fromJson(assignedTo!)
-                  : null);
+            id: ObjectId().toHexString(),
+            title: title,
+            logs: null,
+            weight: (weight as int?) ?? 1,
+            createdAt: DateTime.now().toString(),
+            closedAt: null,
+            assignedTo: assignedTo == null
+                ? null
+                : UserModel.fromJson((assignedTo as Map<String, dynamic>?)!),
+          );
           project.sprints[sprintIndex].tickets.add(ticketModel);
           await DatabaseService.projectsCollection.update(
             where.eq('project_id', projectId),
