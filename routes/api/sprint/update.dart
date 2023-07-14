@@ -67,6 +67,7 @@ Future<Response> updateSprint(RequestContext context) async {
             project.toJson(),
           );
           return Response.json(
+            statusCode: 200,
             body: {
               'success': true,
               'data': project,
