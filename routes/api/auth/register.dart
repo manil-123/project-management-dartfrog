@@ -1,4 +1,5 @@
 import 'package:dart_frog/dart_frog.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import '../../../models/user/user_model.dart';
 import '../../../services/database_service.dart';
 import '../../../utils/encrypt_data.dart';
@@ -48,6 +49,7 @@ Future<Response> registerUser(RequestContext context) async {
       body['password'],
     );
     final user = UserModel.fromJson({
+      'user_id': ObjectId().toHexString(),
       'username': body['username'],
       'password': encryptedPassword,
       'profilePic': '',
