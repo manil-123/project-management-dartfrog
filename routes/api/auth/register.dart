@@ -70,6 +70,7 @@ Future<Response> registerUser(RequestContext context) async {
     return Response.json(
       statusCode: 500,
       body: {
+        'success': false,
         'message': 'Internal Server Error',
       },
     );
