@@ -53,7 +53,7 @@ Future<Response> addSprint(RequestContext context) async {
             project.copyWith(sprints: [...project.sprints, newSprint]);
 
         await DatabaseService.projectsCollection.update(
-          where.eq('project_id', project.id),
+          where.eq('project_id', id),
           newProject.toJson(),
         );
         return Response.json(
