@@ -32,4 +32,12 @@ class SprintModel {
     data['tickets'] = this.tickets.map((v) => v.toJson()).toList();
     return data;
   }
+
+  SprintModel copyWith({String? name, List<TicketModel>? tickets}) {
+    return SprintModel(
+      id: id,
+      name: name ?? this.name,
+      tickets: tickets ?? this.tickets,
+    );
+  }
 }

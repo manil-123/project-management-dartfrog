@@ -46,13 +46,12 @@ class ProjectModel {
   }
 
   ProjectModel copyWith({
-    String? id,
     String? name,
     List<SprintModel>? sprints,
     List<UserModel>? members,
   }) {
     return ProjectModel(
-      id: id ?? this.id,
+      id: id,
       name: name ?? this.name,
       sprints: sprints ?? this.sprints,
       members: members ?? this.members,
