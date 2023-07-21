@@ -28,8 +28,8 @@ class ProjectModel {
       });
     }
     return ProjectModel(
-      id: json['id'],
-      name: json['name'],
+      id: json['project_id'],
+      name: json['project_name'],
       sprints: sprints,
       members: members,
     );
@@ -37,8 +37,8 @@ class ProjectModel {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['project_id'] = this.id;
+    data['project_name'] = this.name;
     data['sprints'] = this.sprints.map((v) => v.toJson()).toList();
     data['members'] = this.members.map((v) => v.toJson()).toList();
     return data;
