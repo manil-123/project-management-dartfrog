@@ -13,4 +13,4 @@ build/
 coverage/
 
 # Encryption Decryption Key
-.constants/keys.dart
+constants/keys.dart
