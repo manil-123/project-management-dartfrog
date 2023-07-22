@@ -1,3 +1,5 @@
+import '../user/user_model.dart';
+
 class TicketModel {
   final String id;
   final String title;
@@ -5,7 +7,7 @@ class TicketModel {
   final int? weight;
   final String? createdAt;
   final String? closedAt;
-  final String? assignedTo;
+  final UserModel? assignedTo;
 
   TicketModel({
     required this.id,
@@ -25,7 +27,9 @@ class TicketModel {
       weight: json['weight'],
       createdAt: json['createdAt'],
       closedAt: json['closedAt'],
-      assignedTo: json['assignedTo'],
+      assignedTo: json['assignedTo'] != null
+          ? UserModel.fromJson(json['assignedTo'])
+          : null,
     );
   }
 
@@ -37,7 +41,9 @@ class TicketModel {
     data['weight'] = this.weight;
     data['createdAt'] = this.createdAt;
     data['closedAt'] = this.closedAt;
-    data['assignedTo'] = this.assignedTo;
+    if (this.assignedTo != null) {
+      data['assignedTo'] = this.assignedTo!.toJson();
+    }
     return data;
   }
 }
