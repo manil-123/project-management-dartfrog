@@ -19,7 +19,7 @@ class DatabaseService {
   }
 
   //collections
-  static final userssCollections = db.collection('users');
+  static final usersCollection = db.collection('users');
 
   // we will use this method to start the database connection and use it in our routes
   static Future<Response> startConnection(
