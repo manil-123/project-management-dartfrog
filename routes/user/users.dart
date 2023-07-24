@@ -1,5 +1,5 @@
 import 'package:dart_frog/dart_frog.dart';
-import '../constants/constant.dart';
+import '../../constants/constant.dart';
 
 Response onRequest(RequestContext context) {
   if (context.request.method == HttpMethod.get) {
