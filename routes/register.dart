@@ -42,9 +42,11 @@ Future<Response> registerUser(RequestContext context) async {
       'isAdmin': false
     });
     await DatabaseService.usersCollection.insert(user.toJson());
+    final returnUser = user.toJson();
+    returnUser.remove('password');
     return Response.json(
       statusCode: 201,
-      body: {'message': 'User created successfully', 'user': user.toJson()},
+      body: {'message': 'User created successfully', 'user': returnUser},
     );
   } catch (e) {
     return Response.json(
