@@ -1,15 +1,12 @@
-import 'dart:developer';
-
 import 'package:dart_frog/dart_frog.dart';
-
 import '../models/user/user_model.dart';
 import '../services/database_service.dart';
 
 Future<Response> onRequest(RequestContext context) async {
-  return DatabaseService.startConnection(context, addUser(context));
+  return DatabaseService.startConnection(context, registerUser(context));
 }
 
-Future<Response> addUser(RequestContext context) async {
+Future<Response> registerUser(RequestContext context) async {
   //check if the request is a POST request
   if (context.request.method == HttpMethod.post) {
     //check if headers is application/json
@@ -17,17 +14,22 @@ Future<Response> addUser(RequestContext context) async {
     if (contentType == 'application/json') {
       //check if body is present
       final body = await context.request.json();
-      if (body['userName'] != null && body['isAdmin'] != null) {
+      if (body['username'] != null && body['password'] != null) {
         try {
           final user = UserModel.fromJson({
-            'id': DateTime.now().millisecondsSinceEpoch.toString(),
-            'userName': body['userName'],
-            'isAdmin': body['isAdmin'],
+            'username': body['username'],
+            'password': body['password'],
+            'profilePic': '',
+            'isAdmin': false
           });
+          print(user.toJson());
           await DatabaseService.usersCollection.insert(user.toJson());
           return Response.json(
             statusCode: 201,
-            body: {'message': 'User created successfully with id: ${user.id}'},
+            body: {
+              'message': 'User created successfully',
+              'user': user.toJson()
+            },
           );
         } catch (e) {
           return Response.json(
