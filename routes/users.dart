@@ -19,9 +19,9 @@ Future<Response> getUsers(RequestContext context) async {
         final doc =
             await DatabaseService.usersCollection.findOne(where.eq('id', id));
         if (doc != null && doc.isNotEmpty) {
-          final pizza = UserModel.fromJson(doc);
+          final user = UserModel.fromJson(doc);
           return Response.json(
-            body: {'data': pizza},
+            body: {'data': user},
           );
         }
       } catch (e) {
@@ -32,9 +32,9 @@ Future<Response> getUsers(RequestContext context) async {
       }
     } else {
       final docs = await DatabaseService.usersCollection.find().toList();
-      final pizzas = docs.map(UserModel.fromJson).toList();
+      final usersList = docs.map(UserModel.fromJson).toList();
       return Response.json(
-        body: {'data': pizzas},
+        body: {'data': usersList},
       );
     }
   }

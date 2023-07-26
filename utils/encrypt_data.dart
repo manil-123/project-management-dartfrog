@@ -13,8 +13,9 @@ class EncryptData {
     return encrypted.base64;
   }
 
-  static decryptAES(Encrypted encryptedData) {
-    final decrypted = encrypter.decrypt(encryptedData, iv: iv);
+  static decryptAES(String encryptedData) {
+    final encrypted = Encrypted.fromBase64(encryptedData);
+    final decrypted = encrypter.decrypt(encrypted, iv: iv);
     return decrypted;
   }
 }
