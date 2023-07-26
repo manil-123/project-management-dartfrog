@@ -1,7 +1,7 @@
 import 'package:dart_frog/dart_frog.dart';
-import '../models/user/user_model.dart';
-import '../services/database_service.dart';
-import '../utils/encrypt_data.dart';
+import '../../models/user/user_model.dart';
+import '../../services/database_service.dart';
+import '../../utils/encrypt_data.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   return DatabaseService.startConnection(context, registerUser(context));
