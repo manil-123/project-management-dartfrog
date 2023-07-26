@@ -1,6 +1,7 @@
 import 'package:dart_frog/dart_frog.dart';
 import '../models/user/user_model.dart';
 import '../services/database_service.dart';
+import '../utils/encrypt_data.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   return DatabaseService.startConnection(context, registerUser(context));
@@ -16,13 +17,13 @@ Future<Response> registerUser(RequestContext context) async {
       final body = await context.request.json();
       if (body['username'] != null && body['password'] != null) {
         try {
+          final encryptedPassword = EncryptData.encryptAES(body['password']);
           final user = UserModel.fromJson({
             'username': body['username'],
-            'password': body['password'],
+            'password': encryptedPassword,
             'profilePic': '',
             'isAdmin': false
           });
-          print(user.toJson());
           await DatabaseService.usersCollection.insert(user.toJson());
           return Response.json(
             statusCode: 201,
@@ -34,7 +35,7 @@ Future<Response> registerUser(RequestContext context) async {
         } catch (e) {
           return Response.json(
             statusCode: 500,
-            body: {'message': 'Internal Server Error'},
+            body: {'message': 'Internal Sercer Error'},
           );
         }
       } else {

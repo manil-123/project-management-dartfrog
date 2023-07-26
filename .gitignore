@@ -11,3 +11,6 @@ build/
 
 # Test related files
 coverage/
+
+# Encryption Decryption Key
+.constants/keys.dart
