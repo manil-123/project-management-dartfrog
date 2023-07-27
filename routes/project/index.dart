@@ -1,7 +1,6 @@
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../../models/project/project_model.dart';
-import '../../models/user/user_model.dart';
 import '../../services/database_service.dart';
 
 Future<Response> onRequest(RequestContext context) async {
@@ -11,7 +10,7 @@ Future<Response> onRequest(RequestContext context) async {
 Future<Response> getProjects(RequestContext context) async {
   //check if the request is a GET request
   if (context.request.method == HttpMethod.get) {
-    //check if user_id is present
+    //check if project is present
     final params = context.request.uri.queryParameters;
     if (!params.containsKey('id')) {
       final docs = await DatabaseService.projectsCollection.find().toList();
@@ -20,7 +19,7 @@ Future<Response> getProjects(RequestContext context) async {
         body: {'data': projectsList},
       );
     }
-    //return user with the id
+    //return project with the id
     final id = params['id'];
     try {
       final doc = await DatabaseService.projectsCollection

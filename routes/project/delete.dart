@@ -9,7 +9,7 @@ Future<Response> onRequest(RequestContext context) async {
 Future<Response> deleteProject(RequestContext context) async {
   //check if the request is a DELETE request
   if (context.request.method == HttpMethod.delete) {
-    //check if user_id is present
+    //check if project_id is present
     final body = await context.request.json();
     final projectId = body['project_id'];
     if (projectId == null) {
