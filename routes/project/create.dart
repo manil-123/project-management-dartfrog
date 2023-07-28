@@ -17,9 +17,8 @@ Future<Response> createProject(RequestContext context) async {
 
   final body = await context.request.json();
   final projectName = body['project_name'];
-  final projectMembers = body['members'];
 
-  if (projectName == null || projectMembers == null) {
+  if (projectName == null) {
     return Response.json(
       statusCode: 400,
       body: {'message': 'Project name is missing'},
@@ -39,7 +38,7 @@ Future<Response> createProject(RequestContext context) async {
       'project_id': ObjectId().toHexString(),
       'project_name': projectName,
       'sprints': [],
-      'members': projectMembers
+      'members': []
     });
     await DatabaseService.projectsCollection.insert(newProject.toJson());
     return Response.json(
