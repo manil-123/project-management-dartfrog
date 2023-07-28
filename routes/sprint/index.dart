@@ -39,9 +39,10 @@ Future<Response> getSprints(RequestContext context) async {
         );
       }
     } catch (e) {
+      print(e);
       return Response.json(
-        statusCode: 404,
-        body: {'message': 'Project not found'},
+        statusCode: 500,
+        body: {'message': 'Internal Server Error'},
       );
     }
   }

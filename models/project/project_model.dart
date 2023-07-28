@@ -15,18 +15,19 @@ class ProjectModel {
   });
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
-    var sprints = <SprintModel>[];
-    if ((json['sprints'] as List).isNotEmpty) {
-      json['sprints'].forEach((ticket) {
-        sprints.add(SprintModel.fromJson(ticket));
-      });
-    }
     var members = <UserModel>[];
     if ((json['members'] as List).isNotEmpty) {
-      json['members'].forEach((ticket) {
-        members.add(UserModel.fromJson(ticket));
+      json['members'].forEach((member) {
+        members.add(UserModel.fromJson(member));
       });
     }
+    var sprints = <SprintModel>[];
+    if ((json['sprints'] as List).isNotEmpty) {
+      json['sprints'].forEach((sprint) {
+        sprints.add(SprintModel.fromJson(sprint));
+      });
+    }
+
     return ProjectModel(
       id: json['project_id'],
       name: json['project_name'],

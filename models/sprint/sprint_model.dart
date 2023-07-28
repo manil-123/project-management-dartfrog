@@ -18,13 +18,17 @@ class SprintModel {
         tickets.add(TicketModel.fromJson(ticket));
       });
     }
-    return SprintModel(id: json['id'], name: json['name'], tickets: tickets);
+    return SprintModel(
+      id: json['sprint_id'],
+      name: json['sprint_name'],
+      tickets: tickets,
+    );
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['sprint_id'] = this.id;
+    data['sprint_name'] = this.name;
     data['tickets'] = this.tickets.map((v) => v.toJson()).toList();
     return data;
   }
