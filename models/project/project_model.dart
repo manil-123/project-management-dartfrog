@@ -43,4 +43,18 @@ class ProjectModel {
     data['members'] = this.members.map((v) => v.toJson()).toList();
     return data;
   }
+
+  ProjectModel copyWith({
+    String? id,
+    String? name,
+    List<SprintModel>? sprints,
+    List<UserModel>? members,
+  }) {
+    return ProjectModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      sprints: sprints ?? this.sprints,
+      members: members ?? this.members,
+    );
+  }
 }
