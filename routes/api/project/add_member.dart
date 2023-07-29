@@ -65,7 +65,7 @@ Future<Response> addMember(RequestContext context) async {
       body: {
         'success': true,
         'data': project,
-        'message': 'Project updated successfully',
+        'message': 'Member added successfully',
       },
     );
   } catch (e) {
