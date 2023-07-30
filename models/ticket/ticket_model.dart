@@ -44,4 +44,23 @@ class TicketModel {
     data['assignedTo'] = this.assignedTo?.toJson();
     return data;
   }
+
+  TicketModel copyWith({
+    String? title,
+    String? logs,
+    int? weight,
+    String? createdAt,
+    String? closedAt,
+    UserModel? assignedTo,
+  }) {
+    return TicketModel(
+      id: id,
+      title: title ?? this.title,
+      logs: logs ?? this.logs,
+      weight: weight ?? this.weight,
+      createdAt: createdAt ?? this.createdAt,
+      closedAt: closedAt ?? this.closedAt,
+      assignedTo: assignedTo ?? this.assignedTo,
+    );
+  }
 }
