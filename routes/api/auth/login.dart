@@ -21,16 +21,6 @@ Future<Response> login(RequestContext context) async {
     );
   }
 
-  final contentType = context.request.headers['content-type'];
-  if (contentType != 'application/json') {
-    return Response.json(
-      statusCode: 400,
-      body: {
-        'message': 'Invalid content type',
-      },
-    );
-  }
-
   final body = await context.request.json();
   final username = body['username'];
   final password = body['password'];

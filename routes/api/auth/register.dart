@@ -22,16 +22,7 @@ Future<Response> registerUser(RequestContext context) async {
       },
     );
   }
-  //check if headers is application/json
-  final contentType = context.request.headers['content-type'];
-  if (contentType != 'application/json') {
-    return Response.json(
-      statusCode: 404,
-      body: {
-        'message': contentType,
-      },
-    );
-  }
+
   //check if body is present
   final body = await context.request.json();
   final username = body['username'];
