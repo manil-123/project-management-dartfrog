@@ -9,18 +9,21 @@ import '../../../services/database_service.dart';
 Future<Response> onRequest(RequestContext context) async {
   return DatabaseService.startConnection(
     context,
-    createTicket(context),
+    updateTicket(context),
   );
 }
 
-Future<Response> createTicket(RequestContext context) async {
-  //check if the request is a POST request
-  if (context.request.method == HttpMethod.post) {
+Future<Response> updateTicket(RequestContext context) async {
+  //check if the request is a PUT request
+  if (context.request.method == HttpMethod.put) {
     //check if user_id is present
     final params = context.request.uri.queryParameters;
     final body = await context.request.json();
+    final ticketId = body['id'];
     final title = body['title'];
+    final logs = body['logs'];
     final weight = body['weight'];
+    final closedAt = body['closedAt'];
     final assignedTo = body['assignedTo'];
     if (!params.containsKey('project_id')) {
       return Response.json(
@@ -40,12 +43,12 @@ Future<Response> createTicket(RequestContext context) async {
         },
       );
     }
-    if (title == null) {
+    if (ticketId == null) {
       return Response.json(
         statusCode: 400,
         body: {
           'success': false,
-          'message': 'Title field is required',
+          'message': 'Ticket id is required',
         },
       );
     }
@@ -82,34 +85,48 @@ Future<Response> createTicket(RequestContext context) async {
             },
           );
         } else {
-          final ticketModel = TicketModel(
-            id: ObjectId().toHexString(),
-            title: title,
-            logs: null,
-            weight: (weight as int?) ?? 1,
-            createdAt: DateTime.now().toString(),
-            closedAt: null,
-            assignedTo: assignedTo == null
-                ? null
-                : UserModel.fromJson((assignedTo as Map<String, dynamic>?)!),
-          );
-          project.sprints[sprintIndex].tickets.add(ticketModel);
-          await DatabaseService.projectsCollection.update(
-            where.eq('project_id', projectId),
-            project.toJson(),
-          );
-          return Response.json(
-            statusCode: 201,
-            body: {
-              'success': true,
-              'data': {
-                "project_id": projectId,
-                "project_name": project.name,
-                "sprint": project.sprints[sprintIndex],
+          final ticketIndex = project.sprints[sprintIndex].tickets
+              .indexWhere((element) => element.id == ticketId);
+          if (ticketIndex == -1) {
+            return Response.json(
+              statusCode: 404,
+              body: {
+                'success': false,
+                'message': 'Ticket not found in the sprint',
               },
-              'message': 'Ticket created successfully',
-            },
-          );
+            );
+          } else {
+            final ticketModel =
+                project.sprints[sprintIndex].tickets[ticketIndex];
+            final updatedTicket = ticketModel.copyWith(
+              title: title ?? ticketModel.title,
+              logs: logs ?? ticketModel.logs,
+              weight: weight ?? ticketModel.weight,
+              closedAt: closedAt != null
+                  ? DateTime.now().toString()
+                  : ticketModel.closedAt,
+              assignedTo: assignedTo != null
+                  ? UserModel.fromJson((assignedTo as Map<String, dynamic>?)!)
+                  : ticketModel.assignedTo,
+            );
+            project.sprints[sprintIndex].tickets[ticketIndex] = updatedTicket;
+            await DatabaseService.projectsCollection.update(
+              where.eq('project_id', projectId),
+              project.toJson(),
+            );
+            return Response.json(
+              statusCode: 201,
+              body: {
+                'success': true,
+                'data': {
+                  "project_id": projectId,
+                  "project_name": project.name,
+                  "sprint": project.sprints[sprintIndex],
+                },
+                'message': 'Ticket created successfully',
+              },
+            );
+          }
         }
       }
     } catch (e) {
