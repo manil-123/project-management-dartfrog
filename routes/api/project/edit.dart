@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../../../models/project/project_model.dart';
@@ -13,7 +14,7 @@ Future<Response> onRequest(RequestContext context) async {
 Future<Response> editProject(RequestContext context) async {
   if (context.request.method != HttpMethod.put) {
     return Response.json(
-      statusCode: 404,
+      statusCode: HttpStatus.methodNotAllowed,
       body: {
         'message': 'Method not allowed',
       },

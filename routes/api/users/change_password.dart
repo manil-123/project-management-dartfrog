@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../../../models/user/user_model.dart';
@@ -15,7 +16,7 @@ Future<Response> changePassword(RequestContext context) async {
   //check if the request is a PUT request
   if (context.request.method != HttpMethod.put) {
     return Response.json(
-      statusCode: 404,
+      statusCode: HttpStatus.methodNotAllowed,
       body: {
         'message': 'Method not allowed',
       },

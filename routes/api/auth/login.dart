@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../../../services/database_service.dart';
@@ -13,7 +14,7 @@ Future<Response> onRequest(RequestContext context) async {
 Future<Response> login(RequestContext context) async {
   if (context.request.method != HttpMethod.post) {
     return Response.json(
-      statusCode: 405,
+      statusCode: HttpStatus.methodNotAllowed,
       body: {
         'message': 'Method not allowed',
       },

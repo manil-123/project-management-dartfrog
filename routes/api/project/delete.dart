@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../../../services/database_service.dart';
@@ -64,7 +65,7 @@ Future<Response> deleteProject(RequestContext context) async {
     }
   }
   return Response.json(
-    statusCode: 404,
+    statusCode: HttpStatus.methodNotAllowed,
     body: {
       'message': 'Method not allowed',
     },
