@@ -37,6 +37,22 @@ Future<Response> registerUser(RequestContext context) async {
     );
   }
   try {
+    final findExistingUser = await DatabaseService.usersCollection.findOne(
+      where.eq(
+        'username',
+        username,
+      ),
+    );
+    print(findExistingUser);
+    if (findExistingUser != null) {
+      return Response.json(
+        statusCode: 400,
+        body: {
+          'success': false,
+          'message': 'User already exists with the provided username',
+        },
+      );
+    }
     final encryptedPassword = EncryptData.encryptAES(
       body['password'],
     );
