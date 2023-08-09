@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../../../models/project/project_model.dart';
+import '../../../models/user/user_model.dart';
 import '../../../services/database_service.dart';
 
 Future<Response> onRequest(RequestContext context) async {
@@ -16,14 +17,26 @@ Future<Response> getDashboardInfo(RequestContext context) async {
   if (context.request.method == HttpMethod.get) {
     try {
       int totalSprints = 0;
+      List<UserModel> totalMembers = [];
       final docs = await DatabaseService.projectsCollection.find().toList();
       final projectsList = docs.map(ProjectModel.fromJson).toList();
+
+      Set<String> addedMemberIds = Set(); // To track added member IDs
+
       projectsList.forEach((element) {
-        totalSprints = totalSprints + element.sprints.length;
+        totalSprints += element.sprints.length;
+        // Add unique members to totalMembers list
+        element.members.forEach((member) {
+          if (!addedMemberIds.contains(member.id)) {
+            totalMembers.add(member);
+            addedMemberIds.add(member.id);
+          }
+        });
       });
       final dashboardResponse = {
         "total_projects": projectsList.length,
         "total_sprints": totalSprints,
+        "total_members": totalMembers.length,
       };
       return Response.json(
         statusCode: 200,
