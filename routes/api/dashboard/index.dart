@@ -15,9 +15,16 @@ Future<Response> getDashboardInfo(RequestContext context) async {
   //check if the request is a GET request
   if (context.request.method == HttpMethod.get) {
     try {
+      int totalSprints = 0;
       final docs = await DatabaseService.projectsCollection.find().toList();
       final projectsList = docs.map(ProjectModel.fromJson).toList();
-      final dashboardResponse = {"total_projects": projectsList.length};
+      projectsList.forEach((element) {
+        totalSprints = totalSprints + element.sprints.length;
+      });
+      final dashboardResponse = {
+        "total_projects": projectsList.length,
+        "total_sprints": totalSprints,
+      };
       return Response.json(
         statusCode: 200,
         body: {
