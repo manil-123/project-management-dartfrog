@@ -17,6 +17,7 @@ Future<Response> getDashboardInfo(RequestContext context) async {
   if (context.request.method == HttpMethod.get) {
     try {
       int totalSprints = 0;
+      int totalTickets = 0;
       List<UserModel> totalMembers = [];
       final docs = await DatabaseService.projectsCollection.find().toList();
       final projectsList = docs.map(ProjectModel.fromJson).toList();
@@ -24,6 +25,7 @@ Future<Response> getDashboardInfo(RequestContext context) async {
       Set<String> addedMemberIds = Set(); // To track added member IDs
 
       projectsList.forEach((element) {
+        //Calculate total number of sprints
         totalSprints += element.sprints.length;
         // Add unique members to totalMembers list
         element.members.forEach((member) {
@@ -32,11 +34,16 @@ Future<Response> getDashboardInfo(RequestContext context) async {
             addedMemberIds.add(member.id);
           }
         });
+        // Calculate total tickets
+        element.sprints.forEach((sprint) {
+          totalTickets += sprint.tickets.length;
+        });
       });
       final dashboardResponse = {
         "total_projects": projectsList.length,
         "total_sprints": totalSprints,
         "total_members": totalMembers.length,
+        "total_tickets": totalTickets,
       };
       return Response.json(
         statusCode: 200,
