@@ -25,6 +25,7 @@ Future<Response> updateTicket(RequestContext context) async {
     final weight = body['weight'];
     final closedAt = body['closedAt'];
     final assignedTo = body['assignedTo'];
+    final ticketStatus = body['ticketStatus'];
     if (!params.containsKey('project_id')) {
       return Response.json(
         statusCode: 400,
@@ -108,6 +109,7 @@ Future<Response> updateTicket(RequestContext context) async {
               assignedTo: assignedTo != null
                   ? UserModel.fromJson((assignedTo as Map<String, dynamic>?)!)
                   : ticketModel.assignedTo,
+              ticketStatus: ticketStatus ?? ticketModel.ticketStatus,
             );
             project.sprints[sprintIndex].tickets[ticketIndex] = updatedTicket;
             await DatabaseService.projectsCollection.update(
