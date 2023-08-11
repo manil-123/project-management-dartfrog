@@ -1,6 +1,6 @@
-enum TICKET_STATUS {
-  TO_DO,
-  IN_PROGRESS,
-  TESTING,
-  DONE,
+enum TicketStatus {
+  to_do,
+  in_progress,
+  testing,
+  done,
 }

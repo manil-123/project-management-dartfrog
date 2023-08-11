@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import '../../../constants/ticket_status.dart';
 import '../../../models/project/project_model.dart';
 import '../../../models/ticket/ticket_model.dart';
 import '../../../models/user/user_model.dart';
@@ -92,6 +93,7 @@ Future<Response> createTicket(RequestContext context) async {
             assignedTo: assignedTo == null
                 ? null
                 : UserModel.fromJson((assignedTo as Map<String, dynamic>?)!),
+            ticketStatus: TicketStatus.to_do.name,
           );
           project.sprints[sprintIndex].tickets.add(ticketModel);
           await DatabaseService.projectsCollection.update(
