@@ -1,0 +1,6 @@
+enum TICKET_STATUS {
+  TO_DO,
+  IN_PROGRESS,
+  TESTING,
+  DONE,
+}

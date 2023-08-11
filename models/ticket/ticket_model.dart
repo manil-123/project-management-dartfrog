@@ -8,6 +8,7 @@ class TicketModel {
   final String? createdAt;
   final String? closedAt;
   final UserModel? assignedTo;
+  final String? ticketStatus;
 
   TicketModel({
     required this.id,
@@ -17,6 +18,7 @@ class TicketModel {
     this.createdAt,
     this.closedAt,
     this.assignedTo,
+    this.ticketStatus,
   });
 
   factory TicketModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class TicketModel {
       assignedTo: json['assignedTo'] != null
           ? UserModel.fromJson(json['assignedTo'])
           : null,
+      ticketStatus: json['ticketStatus'],
     );
   }
 
@@ -42,6 +45,7 @@ class TicketModel {
     data['createdAt'] = this.createdAt;
     data['closedAt'] = this.closedAt;
     data['assignedTo'] = this.assignedTo?.toJson();
+    data['ticketStatus'] = this.ticketStatus;
     return data;
   }
 
@@ -52,6 +56,7 @@ class TicketModel {
     String? createdAt,
     String? closedAt,
     UserModel? assignedTo,
+    String? ticketStatus,
   }) {
     return TicketModel(
       id: id,
@@ -61,6 +66,7 @@ class TicketModel {
       createdAt: createdAt ?? this.createdAt,
       closedAt: closedAt ?? this.closedAt,
       assignedTo: assignedTo ?? this.assignedTo,
+      ticketStatus: ticketStatus ?? this.ticketStatus,
     );
   }
 }
